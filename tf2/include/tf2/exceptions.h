@@ -40,16 +40,33 @@
 namespace tf2
 {
 
+#if defined(_WIN32)
+#pragma push_macro("NO_ERROR")
+#undef NO_ERROR
+#endif
+
 enum class TF2Error : std::uint8_t
 {
-  NO_ERROR = 0,
-  LOOKUP_ERROR = 1,
-  CONNECTIVITY_ERROR = 2,
-  EXTRAPOLATION_ERROR = 3,
-  INVALID_ARGUMENT_ERROR = 4,
-  TIMEOUT_ERROR = 5,
-  TRANSFORM_ERROR = 6
+  TF2_NO_ERROR = 0,
+  TF2_LOOKUP_ERROR = 1,
+  TF2_CONNECTIVITY_ERROR = 2,
+  TF2_EXTRAPOLATION_ERROR = 3,
+  TF2_INVALID_ARGUMENT_ERROR = 4,
+  TF2_TIMEOUT_ERROR = 5,
+  TF2_TRANSFORM_ERROR = 6,
+
+  NO_ERROR [[deprecated]] = 0,
+  LOOKUP_ERROR [[deprecated]] = 1,
+  CONNECTIVITY_ERROR [[deprecated]] = 2,
+  EXTRAPOLATION_ERROR [[deprecated]] = 3,
+  INVALID_ARGUMENT_ERROR [[deprecated]] = 4,
+  TIMEOUT_ERROR [[deprecated]] = 5,
+  TRANSFORM_ERROR [[deprecated]] = 6
 };
+
+#if defined(_WIN32)
+#pragma pop_macro("NO_ERROR")
+#endif
 
 /** \brief A base class for all tf2 exceptions
  * This inherits from ros::exception
