@@ -40,6 +40,8 @@
 namespace tf2
 {
 
+// TODO(clalancette): We can remove this workaround when we remove the
+// deprecated TF2Error enums below.
 #if defined(_WIN32)
 #pragma push_macro("NO_ERROR")
 #undef NO_ERROR
@@ -47,6 +49,8 @@ namespace tf2
 
 enum class TF2Error : std::uint8_t
 {
+  // While the TF2_ prefix here is a bit redundant, it also prevents us from
+  // colliding with Windows defines (specifically, NO_ERROR).
   TF2_NO_ERROR = 0,
   TF2_LOOKUP_ERROR = 1,
   TF2_CONNECTIVITY_ERROR = 2,
@@ -55,15 +59,17 @@ enum class TF2Error : std::uint8_t
   TF2_TIMEOUT_ERROR = 5,
   TF2_TRANSFORM_ERROR = 6,
 
-  NO_ERROR [[deprecated]] = 0,
-  LOOKUP_ERROR [[deprecated]] = 1,
-  CONNECTIVITY_ERROR [[deprecated]] = 2,
-  EXTRAPOLATION_ERROR [[deprecated]] = 3,
-  INVALID_ARGUMENT_ERROR [[deprecated]] = 4,
-  TIMEOUT_ERROR [[deprecated]] = 5,
-  TRANSFORM_ERROR [[deprecated]] = 6
+  NO_ERROR [[deprecated("Use TF2_NO_ERROR instead")]] = 0,
+  LOOKUP_ERROR [[deprecated("Use TF2_LOOKUP_ERROR instead")]] = 1,
+  CONNECTIVITY_ERROR [[deprecated("Use TF2_CONNECTIVITY_ERROR instead")]] = 2,
+  EXTRAPOLATION_ERROR [[deprecated("Use TF2_EXTRAPOLATION_ERROR instead")]] = 3,
+  INVALID_ARGUMENT_ERROR [[deprecated("Use TF2_INVALID_ARGUMENT_ERROR instead")]] = 4,
+  TIMEOUT_ERROR [[deprecated("Use TF2_TIMEOUT_ERROR instead")]] = 5,
+  TRANSFORM_ERROR [[deprecated("Use TF2_TRANSFORM_ERROR instead")]] = 6
 };
 
+// TODO(clalancette): We can remove this workaround when we remove the
+// deprecated TF2Error enums below.
 #if defined(_WIN32)
 #pragma pop_macro("NO_ERROR")
 #endif
