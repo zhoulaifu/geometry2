@@ -37,58 +37,101 @@
 #include <string>
 #include <vector>
 
+std::unordered_map<std::string, std::string> _make_arg_map(std::vector<std::string> && args)
+{
+  std::unordered_map<std::string, std::string> ret;
+  /* collect from [exe] --option1 value --option2 value ... --optionN value */
+  for (size_t x = 1; x < args.size(); x += 2) {
+    ret.emplace(std::move(args[x]), std::move(args[x + 1]));
+  }
+  return ret;
+}
+
+void _print_usage()
+{
+  /* TODO(allenh1): update the usage */
+  printf("A command line utility for manually sending a transform.\n");
+  printf("Usage: static_transform_publisher x y z qx qy qz qw frame_id child_frame_id \n");
+  printf("OR \n");
+  printf("Usage: static_transform_publisher x y z yaw pitch roll frame_id child_frame_id \n");
+  RCUTILS_LOG_ERROR(
+    "static_transform_publisher exited due to not having the right number of arguments");
+}
+
+tf2::Quaternion _get_rotation(const std::unordered_map<std::string, std::string> & args)
+{
+  tf2::Quaternion quat;
+  auto iter = args.find("--qx");
+  if (iter != args.end()) {
+    quat.setX(std::stod(iter->second));
+  }
+  iter = args.find("--qy");
+  if (iter != args.end()) {
+    quat.setY(std::stod(iter->second));
+  }
+  iter = args.find("--qz");
+  if (iter != args.end()) {
+    quat.setZ(std::stod(iter->second));
+  }
+  iter = args.find("--qw");
+  if (iter != args.end()) {
+    quat.setW(std::stod(iter->second));
+  }
+  /* TODO(allenh1): Parse RPY */
+  return quat;
+}
+
+tf2::Vector3 _get_translation(const std::unordered_map<std::string, std::string> & args)
+{
+  tf2::Vector3 trans;
+  auto iter = args.find("--x");
+  if (iter != args.end()) {
+    trans.setX(std::stod(iter->second));
+  }
+  iter = args.find("--y");
+  if (iter != args.end()) {
+    trans.setY(std::stod(iter->second));
+  }
+  iter = args.find("--z");
+  if (iter != args.end()) {
+    trans.setZ(std::stod(iter->second));
+  }
+  return trans;
+}
+
 int main(int argc, char ** argv)
 {
   // Initialize ROS
   std::vector<std::string> args = rclcpp::init_and_remove_ros_arguments(argc, argv);
+  std::unordered_map<std::string, std::string> arg_map = _make_arg_map(std::move(args));
   rclcpp::NodeOptions options;
   std::shared_ptr<tf2_ros::StaticTransformBroadcasterNode> node;
-
-  if (args.size() != 9 && args.size() != 10) {
-    printf("A command line utility for manually sending a transform.\n");
-    printf("Usage: static_transform_publisher x y z qx qy qz qw frame_id child_frame_id \n");
-    printf("OR \n");
-    printf("Usage: static_transform_publisher x y z yaw pitch roll frame_id child_frame_id \n");
-    RCUTILS_LOG_ERROR(
-      "static_transform_publisher exited due to not having the right number of arguments");
-    return 2;
-  }
-  double x = std::stod(args[1]);
-  double y = std::stod(args[2]);
-  double z = std::stod(args[3]);
-  double rx, ry, rz, rw;
+  tf2::Quaternion rotation = _get_rotation(arg_map);
+  tf2::Vector3 translation = _get_translation(arg_map);
   std::string frame_id, child_id;
-
-  if (args.size() == 9) {
-    // grab parameters from yaw, pitch, roll
-    tf2::Quaternion quat;
-    quat.setRPY(std::stod(args[6]), std::stod(args[5]), std::stod(args[4]));
-    rx = quat.x();
-    ry = quat.y();
-    rz = quat.z();
-    rw = quat.w();
-    frame_id = args[7];
-    child_id = args[8];
-  } else {
-    // quaternion supplied directly
-    rx = std::stod(args[4]);
-    ry = std::stod(args[5]);
-    rz = std::stod(args[6]);
-    rw = std::stod(args[7]);
-    frame_id = args[8];
-    child_id = args[9];
+  auto iter = arg_map.find("--frame-id");
+  if (iter == arg_map.end()) {
+    _print_usage();
+    return 1;
   }
+  frame_id = iter->second;
+  iter = arg_map.find("--child-frame-id");
+  if (iter == arg_map.end()) {
+    _print_usage();
+    return 1;
+  }
+  child_id = iter->second;
 
   // override default parameters with the desired transform
   options.parameter_overrides(
   {
-    {"translation.x", x},
-    {"translation.y", y},
-    {"translation.z", z},
-    {"rotation.x", rx},
-    {"rotation.y", ry},
-    {"rotation.z", rz},
-    {"rotation.w", rw},
+    {"translation.x", translation.x()},
+    {"translation.y", translation.y()},
+    {"translation.z", translation.z()},
+    {"rotation.x", rotation.x()},
+    {"rotation.y", rotation.y()},
+    {"rotation.z", rotation.z()},
+    {"rotation.w", rotation.w()},
     {"frame_id", frame_id},
     {"child_frame_id", child_id},
   });
