@@ -1,7 +1,7 @@
 language: C
 
-script:
- - echo "Hello geometry2 15h29"
+ script:
+ - echo "Hello geometry2 15h33"
 
 branches:
   only:
