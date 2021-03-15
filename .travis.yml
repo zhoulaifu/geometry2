@@ -2,6 +2,6 @@ language: C
 script:
  - echo "Hello geometry2 15h19"
 
- branches:
+branches:
   only:
   - foxy
