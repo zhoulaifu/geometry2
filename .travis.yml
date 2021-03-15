@@ -1,5 +1,5 @@
 language: C
- script:
+script:
  - echo "Hello geometry2 15h19"
 
  branches:
