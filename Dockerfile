@@ -22,4 +22,4 @@ RUN cd $TEEX/shaping && make main_tool
 
 
 RUN  . /opt/ros/${ROS_DISTRO}/setup.sh \
-     && VERBOSE=1 CXX="afl-g++" CXXFLAGS="--coverage -g -fsanitize=address,undefined -fsanitize-undefined-trap-on-error" colcon build --event-handlers console_direct+
+        && VERBOSE=1 CXX="afl-g++" CXXFLAGS="--coverage -g -fsanitize=address,undefined -fsanitize-undefined-trap-on-error" colcon build --event-handlers console_direct+
