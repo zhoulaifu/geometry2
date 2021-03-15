@@ -3,9 +3,9 @@ MOUNT?=/mnt/local
 
 TOKEN?=not_working
 
-SOURCE_buffer_core_test=/opt/ros_ws/src/geometry2/test_tf2/test/buffer_core_test.cpp
+SOURCE_buffer_core_test=${MOUNT}/src/geometry2/test_tf2/test/buffer_core_test.cpp
 PACKAGE_buffer_core_test=test_tf2
-BINARY_buffer_core_test=/opt/ros_ws/build/test_tf2/buffer_core_test
+BINARY_buffer_core_test=${MOUNT}build/test_tf2/buffer_core_test
 
 git:
 	git commit -a -m ".."
