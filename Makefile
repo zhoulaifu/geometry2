@@ -3,12 +3,32 @@ MOUNT?=/mnt/local
 
 TOKEN?=not_working
 
+SOURCE_buffer_core_test=/opt/ros_ws/src/geometry2/test_tf2/test/buffer_core_test.cpp
+PACKAGE_buffer_core_test=test_tf2
+BINARY_buffer_core_test=/opt/ros_ws/build/test_tf2/buffer_core_test
+
 git:
 	git commit -a -m ".."
 	git push
 
 build_docker:
 	docker build --build-arg GIT_ACCESS_TOKEN=${TOKEN} -t "${IMAGE}" .
+
+%.shaping:
+	docker run --mount type=bind,source=${PWD},target=${MOUNT} -it "${IMAGE}" \
+	mkdir -p $(basename $@)
+
+	docker run --mount type=bind,source=${PWD},target=${MOUNT} -it "${IMAGE}" \
+	bash -c "GSL='' LANG_LEX='' /opt/teex/shaping/main_tool < $(SOURCE_$(basename $@)) > $(basename $@)/$(basename $@)_shape.cpp"
+
+
+	docker run --mount type=bind,source=${PWD},target=${MOUNT} -it "${IMAGE}" \
+	bash -c "mkdir -p in/ out/ && tail -n +2 shape_parameters.txt > in/init.txt && rm -f shape_parameters.txt"
+
+	docker run --mount type=bind,source=${PWD},target=${MOUNT} -it "${IMAGE}" \
+	bash -c "sed -i 's/return RUN_ALL_TESTS();/RUN_ALL_TESTS();\n  return 0;/' $(basename $@)/$(basename $@)_shape.cpp"
+
+
 
 shaping:
 	docker run --mount type=bind,source=${PWD},target=${MOUNT} -it "${IMAGE}" \

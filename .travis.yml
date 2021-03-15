@@ -6,6 +6,7 @@ before_install:
 - TOKEN=$TOKEN IMAGE=$IMAGE make build_docker
 script:
 - echo "Hello geometry2 16h11"
+- make buffer_core_test.shaping
 branches:
   only:
   - foxy
