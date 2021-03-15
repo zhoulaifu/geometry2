@@ -1,10 +1,10 @@
 language: C
-services:
- - docker
-before_install:
- - TOKEN=$TOKEN make build_docker
-# script:
-# - echo "Shaping"
+#services:
+# - docker
+#before_install:
+# - TOKEN=$TOKEN make build_docker
+ script:
+ - echo "Hello geometry2"
 # - echo "12h30"
 # - echo debugging
 # - git remote -v
