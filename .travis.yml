@@ -18,6 +18,9 @@ language: C
 #   keep_history: true
 #   on:
 #     branch: main
+branches:
+  only:
+  - foxy
 
 env:
   global:
