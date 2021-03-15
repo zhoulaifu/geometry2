@@ -1,3 +1,6 @@
 language: C
 script:
  - echo "Hello geometry2"
+branches:
+  only:
+  - foxy
