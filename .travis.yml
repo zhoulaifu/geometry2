@@ -8,6 +8,10 @@ script:
 - echo "Hello geometry2 16h11"
 - pwd
 - ls
+- echo $TRAVIS_REPO_SLUG
+- export GH_REF="github.com/${TRAVIS_REPO_SLUG}".
+- echo $GH_REF
+
 #- make buffer_core_test.shaping
 git:
   clone: false
