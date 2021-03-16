@@ -1,21 +1,24 @@
 language: C
 script:
 - echo "Hello geometry2 14h30"
-jobs:
-  include:
-  - stage: trigger downstream
-    script: |
-      echo "OTHERGITHUBID=$OTHERGITHUBID OTHERGITHUBPROJECT=$OTHERGITHUBPROJECT TRAVIS_ACCESS_TOKEN=$TRAVIS_ACCESS_TOKEN"
+- curl -LO --retry 3 https://raw.githubusercontent.com/plume-lib/trigger-travis/master/trigger-travis.sh
 
-      curl -LO --retry 3 https://raw.githubusercontent.com/plume-lib/trigger-travis/master/trigger-travis.sh
-      echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
-      if [[ ($TRAVIS_BRANCH == foxy) &&
-            ($TRAVIS_PULL_REQUEST == false) ]] ; then
-        curl -LO --retry 3 https://raw.githubusercontent.com/plume-lib/trigger-travis/master/trigger-travis.sh
-        sh trigger-travis.sh OTHERGITHUBID OTHERGITHUBPROJECT $TRAVIS_ACCESS_TOKEN
-      else
-        echo "trigger-travis.sh did not run"
-      fi
+- sh trigger-travis.sh OTHERGITHUBID OTHERGITHUBPROJECT $TRAVIS_ACCESS_TOKEN
+# jobs:
+#   include:
+#   - stage: trigger downstream
+#     script: |
+#       echo "OTHERGITHUBID=$OTHERGITHUBID OTHERGITHUBPROJECT=$OTHERGITHUBPROJECT TRAVIS_ACCESS_TOKEN=$TRAVIS_ACCESS_TOKEN"
+
+
+#       echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
+#       if [[ ($TRAVIS_BRANCH == foxy) &&
+#             ($TRAVIS_PULL_REQUEST == false) ]] ; then
+#         curl -LO --retry 3 https://raw.githubusercontent.com/plume-lib/trigger-travis/master/trigger-travis.sh
+#         sh trigger-travis.sh OTHERGITHUBID OTHERGITHUBPROJECT $TRAVIS_ACCESS_TOKEN
+#       else
+#         echo "trigger-travis.sh did not run"
+#       fi
 # git:
 #   clone: false
 # branches:
