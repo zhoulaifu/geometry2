@@ -1,30 +1,30 @@
 language: C
 script:
 - echo "Hello geometry2 14h15"
-jobs:
-  include:
-  - stage: trigger downstream
-    script: |
-      echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
-      if [[ ($TRAVIS_BRANCH == master) &&
-            ($TRAVIS_PULL_REQUEST == false) ]] ; then
-        curl -LO --retry 3 https://raw.githubusercontent.com/plume-lib/trigger-travis/master/trigger-travis.sh
-        sh trigger-travis.sh OTHERGITHUBID OTHERGITHUBPROJECT $TRAVIS_ACCESS_TOKEN
-      else
-        echo "trigger-travis.sh did not run"
-      fi
-git:
-  clone: false
-branches:
-  only:
-  - foxy
-env:
-  global:
-  - IMAGE=test02
-  - OTHERGITHUBID=zhoulaifu
-  - OTHERGITHUBPROJECT=geometry_teex
-  - MOUNT=/mnt/local
-  #github token
-  - secure: gvdyyS83oCaaj8VYerEzZfMBg8hD3YzROUckG1x4+Lb4IPhc/DJ3aW9ErQQ94+FDYLaGi1LOufj7MOKBjjUENMhPiWpGQV3KmC6aLuDIF8Y8Pb2fpyrCsPYUAIOCN5yp8HsFpxxRDHTSXqCZD8+R/jn/P3F8SN4qIfto/SBYbY1VKjCVV4/LGMKJ0D0VEHIX84r8NzDAnu8D3wlo97WgvXrn/7hA8Q8O4Zy3M7BFy5tn2KsnpnOYVjyPrECIOHBChLdZHq/F05JVdmPgCdN/GJHi+O6j9VhN0KzTV20dj24oCu4L0eNAa/HByOdUS60bEyasJeH4sz7N3ifgmufSK2C4TGyT67hN8Qu0X4ZDYkbq9zbW2Z5SP0PGHcU+ILkvs9ddgxB9jFBI/B8U5nU5zMd1GPyBPeEWPhYqpeCQRQJUHzlmBqIpLlYVPL3KBUpeesf2Xp8wxnG5DzXFV1SddCHlGXz80F1S9n3Dzo+TqKIFXJMYTKqs3FCcMQ5CeuVYv9LrriZkhNZIcln3pGsRusn7L+NPxs3rqx9YHu8U+9gJXfI6UD4CWQfF9R6/ghfIZu3/Fw5XeVm3XuQmEn4DeTV7fDudlqcwoDJVFbBINYoXybeRZDwYRGWLRlgv057OkEoTOr6T+Dvla38xDwQ9nDJI0FV3CtQ1/fJA4Ghm3VE=
-    #travis ci token
-    - secure: rPR2dMZFfQ9NiPfGA8/YOy/lO/I3K9uqF+NOaHMfoiZXriel5GJgUNMX5KHxFJohHIAUxqfoUt4bkme+9imSqs0ObfpSObe/vRceqb4voFL+o9TVfphoJiEi5kNPh4z/DOh6O38tw2EYaW3SYA/Gtkj2ZNYO6iRbq1C4V4Sg6JIZJaZMt+cYdtQplndhyYouY5pGEjHmvobB0feRm4cmH9PvcPJTQScPA8euBV3mjjDI0sOatO1B7qPsZJl43rpFAaL25+lgovt9qpCn9hch7Ln0AQPzQCjv2zG23m4cuJHaue+KT9e6dga8TrGsFdaq5tU4wB6pa/Gc0BMKhctKRPAWnUOYFTqLZoAlgEBUa6RkjURLIJOVmeUxDC7J57NY18cj4yrvi+6iXMA2VQm7+JuG5P24YL8nby4RJ9U/EO1JGrT+1HDdB36yKOT0iCPrUe6nO/8dtdPpczlnFXRu11ey11PXRQAAKfPtwpku7COFVg8jgbwmiM0M7BS2R7RSgYdfiB03Jm1BtDwf1MuAIdP6cqYRoNGcerJEvQlLMNN/OBWEKjlzWUY1avLr+XthTRdsn/vV/5smYuUWfWu1ca81mMMKq+5wCfO5AQlH35tAaQ3X+PHF8V/hE1w3nM/OJQkrPNW6o9Z7BGTGIemzt1E/8z46uSEX+XQYDKNGVtM=
+# jobs:
+#   include:
+#   - stage: trigger downstream
+#     script: |
+#       echo "TRAVIS_BRANCH=$TRAVIS_BRANCH TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
+#       if [[ ($TRAVIS_BRANCH == master) &&
+#             ($TRAVIS_PULL_REQUEST == false) ]] ; then
+#         curl -LO --retry 3 https://raw.githubusercontent.com/plume-lib/trigger-travis/master/trigger-travis.sh
+#         sh trigger-travis.sh OTHERGITHUBID OTHERGITHUBPROJECT $TRAVIS_ACCESS_TOKEN
+#       else
+#         echo "trigger-travis.sh did not run"
+#       fi
+# git:
+#   clone: false
+# branches:
+#   only:
+#   - foxy
+# env:
+#   global:
+#   - IMAGE=test02
+#   - OTHERGITHUBID=zhoulaifu
+#   - OTHERGITHUBPROJECT=geometry_teex
+#   - MOUNT=/mnt/local
+#   #github token
+#   - secure: gvdyyS83oCaaj8VYerEzZfMBg8hD3YzROUckG1x4+Lb4IPhc/DJ3aW9ErQQ94+FDYLaGi1LOufj7MOKBjjUENMhPiWpGQV3KmC6aLuDIF8Y8Pb2fpyrCsPYUAIOCN5yp8HsFpxxRDHTSXqCZD8+R/jn/P3F8SN4qIfto/SBYbY1VKjCVV4/LGMKJ0D0VEHIX84r8NzDAnu8D3wlo97WgvXrn/7hA8Q8O4Zy3M7BFy5tn2KsnpnOYVjyPrECIOHBChLdZHq/F05JVdmPgCdN/GJHi+O6j9VhN0KzTV20dj24oCu4L0eNAa/HByOdUS60bEyasJeH4sz7N3ifgmufSK2C4TGyT67hN8Qu0X4ZDYkbq9zbW2Z5SP0PGHcU+ILkvs9ddgxB9jFBI/B8U5nU5zMd1GPyBPeEWPhYqpeCQRQJUHzlmBqIpLlYVPL3KBUpeesf2Xp8wxnG5DzXFV1SddCHlGXz80F1S9n3Dzo+TqKIFXJMYTKqs3FCcMQ5CeuVYv9LrriZkhNZIcln3pGsRusn7L+NPxs3rqx9YHu8U+9gJXfI6UD4CWQfF9R6/ghfIZu3/Fw5XeVm3XuQmEn4DeTV7fDudlqcwoDJVFbBINYoXybeRZDwYRGWLRlgv057OkEoTOr6T+Dvla38xDwQ9nDJI0FV3CtQ1/fJA4Ghm3VE=
+#     #travis ci token
+#     - secure: rPR2dMZFfQ9NiPfGA8/YOy/lO/I3K9uqF+NOaHMfoiZXriel5GJgUNMX5KHxFJohHIAUxqfoUt4bkme+9imSqs0ObfpSObe/vRceqb4voFL+o9TVfphoJiEi5kNPh4z/DOh6O38tw2EYaW3SYA/Gtkj2ZNYO6iRbq1C4V4Sg6JIZJaZMt+cYdtQplndhyYouY5pGEjHmvobB0feRm4cmH9PvcPJTQScPA8euBV3mjjDI0sOatO1B7qPsZJl43rpFAaL25+lgovt9qpCn9hch7Ln0AQPzQCjv2zG23m4cuJHaue+KT9e6dga8TrGsFdaq5tU4wB6pa/Gc0BMKhctKRPAWnUOYFTqLZoAlgEBUa6RkjURLIJOVmeUxDC7J57NY18cj4yrvi+6iXMA2VQm7+JuG5P24YL8nby4RJ9U/EO1JGrT+1HDdB36yKOT0iCPrUe6nO/8dtdPpczlnFXRu11ey11PXRQAAKfPtwpku7COFVg8jgbwmiM0M7BS2R7RSgYdfiB03Jm1BtDwf1MuAIdP6cqYRoNGcerJEvQlLMNN/OBWEKjlzWUY1avLr+XthTRdsn/vV/5smYuUWfWu1ca81mMMKq+5wCfO5AQlH35tAaQ3X+PHF8V/hE1w3nM/OJQkrPNW6o9Z7BGTGIemzt1E/8z46uSEX+XQYDKNGVtM=
