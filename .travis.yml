@@ -3,7 +3,7 @@ script:
 - echo "Hello geometry2 14h30"
 - curl -LO --retry 3 https://raw.githubusercontent.com/plume-lib/trigger-travis/master/trigger-travis.sh
 
-- sh trigger-travis.sh OTHERGITHUBID OTHERGITHUBPROJECT $TRAVIS_ACCESS_TOKEN
+- sh trigger-travis.sh zhoulaifu geometry2_teex $TRAVIS_ACCESS_TOKEN
 # jobs:
 #   include:
 #   - stage: trigger downstream
