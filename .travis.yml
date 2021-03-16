@@ -9,6 +9,8 @@ script:
 - pwd
 - ls
 #- make buffer_core_test.shaping
+git:
+  clone: false
 branches:
   only:
   - foxy
